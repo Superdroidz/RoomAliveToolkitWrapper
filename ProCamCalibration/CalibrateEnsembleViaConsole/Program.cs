@@ -158,13 +158,9 @@ namespace CalibrateEnsembleViaConsole
                     DiscoverServers();
                     SaveXML();
                     break;
-                case "acquire":
+                case "calibrate":
                     LoadXML();
                     Acquire();
-                    SaveXML();
-                    break;
-                case "solve":
-                    LoadXML();
                     Solve();
                     SaveXML();
                     SaveObj();
