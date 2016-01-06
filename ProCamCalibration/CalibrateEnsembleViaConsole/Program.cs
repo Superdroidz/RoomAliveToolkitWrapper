@@ -55,8 +55,7 @@ namespace CalibrateEnsembleViaConsole
                 ensemble.projectors[i].name = i.ToString();
             }
 
-            ensemble.Save(XMLfilename);
-            Console.WriteLine("Done.");
+            Console.WriteLine("Server search completion.");
         }
 
         private static void SaveXML()
@@ -72,33 +71,73 @@ namespace CalibrateEnsembleViaConsole
             }
         }
 
-        private static void SaveToObj()
+        private static void LoadXML()
         {
             try
             {
-                ensemble.SaveToOBJ(path, calibrationName);
+                using (var fileStream = new FileStream(XMLfilename, FileMode.Open))
+                {
+                    var knownTypeList = new List<Type>();
+                    knownTypeList.Add(typeof(Kinect2Calibration));
+                    var serializer = new DataContractSerializer(typeof(ProjectorCameraEnsemble), knownTypeList);
+                    ensemble = (ProjectorCameraEnsemble)serializer.ReadObject(fileStream);
+                }
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                Console.WriteLine("Could not save file to disk.\n" + ex);
-                return;
+                Console.WriteLine("Could not open XML file.\n" + e);
             }
         }
 
-        public static ProjectorCameraEnsemble LoadXML()
+        private static void SaveObj()
         {
-            var knownTypeList = new List<Type>();
-            knownTypeList.Add(typeof(Kinect2Calibration));
-            var serializer = new DataContractSerializer(typeof(ProjectorCameraEnsemble), knownTypeList);
-            var fileStream = new FileStream(XMLfilename, FileMode.Open);
-            var room = (ProjectorCameraEnsemble)serializer.ReadObject(fileStream);
-            fileStream.Close();
-            return room;
+            Console.WriteLine("Creating object file...");
+            try
+            {
+                ensemble.SaveToOBJ(directory, directoryName);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Could not save object file to disk.\n" + e);
+                return;
+            }
+            Console.WriteLine("Object file created.");
+        }
+
+        private static void Acquire()
+        {
+            Console.WriteLine("Acquiring...");
+            try
+            {
+                ensemble.CaptureGrayCodes(directory);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Acquire failed.\n" + e);
+            }
+            Console.WriteLine("Acquire complete.");
+        }
+
+        private static void Solve()
+        {
+            Console.WriteLine("Solving...");
+
+            ensemble.DecodeGrayCodeImages(directory);
+            try
+            {
+                ensemble.CalibrateProjectorGroups(directory);
+                ensemble.OptimizePose();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Solve failed.\n" + e);
+            }
+            Console.WriteLine("Solved!");
         }
 
         static string op;
-        static string path;
-        static string calibrationName;
+        static string directory;
+        static string directoryName;
         static string XMLfilename;
         static ProjectorCameraEnsemble ensemble;
 
@@ -109,22 +148,26 @@ namespace CalibrateEnsembleViaConsole
                 Console.WriteLine("Incorrect number of arguments supplied!");
             }
             op = args[0];
-            path = args[1];
-            calibrationName = Path.GetFileName(path);
-            XMLfilename = Path.Combine(path, calibrationName + ".xml");
+            directory = args[1];
+            directoryName = Path.GetFileName(directory);
+            XMLfilename = Path.Combine(directory, directoryName + ".xml");
 
             switch (op)
             {
                 case "create":
                     DiscoverServers();
+                    SaveXML();
                     break;
                 case "acquire":
-                    Console.WriteLine("Acquiring...");
-                    Console.WriteLine("Acquire complete.");
+                    LoadXML();
+                    Acquire();
+                    SaveXML();
                     break;
                 case "solve":
-                    Console.WriteLine("Solving...");
-                    Console.WriteLine("Solved!");
+                    LoadXML();
+                    Solve();
+                    SaveXML();
+                    SaveObj();
                     break;
                 default:
                     Console.WriteLine("Unrecognised command {0}", op);
