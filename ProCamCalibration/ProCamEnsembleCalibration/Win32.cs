@@ -12,7 +12,7 @@ namespace RoomAliveToolkit
         [DllImport("msvcrt.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr _aligned_free(IntPtr memblock);
 
-        [DllImport("kernel32.dll", EntryPoint = "RtlZeroMemory", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("Kernel32.dll", EntryPoint = "RtlZeroMemory", SetLastError = false)]
         public static extern bool ZeroMemory(IntPtr Destination, UIntPtr Length);
 
         [DllImport("kernel32.dll", EntryPoint = "RtlMoveMemory", CallingConvention = CallingConvention.Cdecl)]
