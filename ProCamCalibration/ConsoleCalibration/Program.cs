@@ -25,7 +25,7 @@ namespace ConsoleCalibration
             }
             op = args[0];
             directory = args[1];
-            fileName = args[2];
+            fileName = Path.GetFileNameWithoutExtension(args[2]);
             XMLfilename = Path.Combine(directory, fileName + ".xml");
 
             switch (op)
@@ -53,7 +53,6 @@ namespace ConsoleCalibration
                     Console.WriteLine("Unrecognised command {0}", op);
                     break;
             }
-            Console.Read();
         }
 
         static Collection<EndpointDiscoveryMetadata> DiscoverCameras()
