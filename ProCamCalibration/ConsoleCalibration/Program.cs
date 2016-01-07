@@ -13,7 +13,7 @@ namespace ConsoleCalibration
     {
         static string op;
         static string directory;
-        static string directoryName;
+        static string fileName;
         static string XMLfilename;
         static ProjectorCameraEnsemble ensemble;
 
@@ -137,7 +137,7 @@ namespace ConsoleCalibration
             Console.WriteLine("Creating object file...");
             try
             {
-                ensemble.SaveToOBJ(directory, directory + "/" + directoryName + ".obj");
+                ensemble.SaveToOBJ(directory, directory + "/" + fileName + ".obj");
                 Console.WriteLine("Object file created.");
             }
             catch (Exception e)
