@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("CalibrateEnsembleViaConsole")]
+[assembly: AssemblyTitle("ConsoleCalibration")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("CalibrateEnsembleViaConsole")]
+[assembly: AssemblyProduct("ConsoleCalibration")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("94b512f5-423f-41e8-843f-4563cb05f201")]
+[assembly: Guid("8c4aac67-0500-4b64-a0ab-e61ef33a559a")]
 
 // Version information for an assembly consists of the following four values:
 //
