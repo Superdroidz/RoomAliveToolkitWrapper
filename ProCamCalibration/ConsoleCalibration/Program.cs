@@ -19,14 +19,14 @@ namespace ConsoleCalibration
 
         static void Main(string[] args)
         {
-            if (args.Length != 2)
+            if (args.Length != 3)
             {
                 Console.WriteLine("Incorrect number of arguments supplied!");
             }
             op = args[0];
             directory = args[1];
-            directoryName = Path.GetFileName(directory);
-            XMLfilename = Path.Combine(directory, directoryName + ".xml");
+            fileName = args[2];
+            XMLfilename = Path.Combine(directory, fileName + ".xml");
 
             switch (op)
             {
@@ -34,13 +34,9 @@ namespace ConsoleCalibration
                     DiscoverServers();
                     SaveXML();
                     break;
-                case "acquire":
+                case "calibrate":
                     LoadXML();
                     Acquire();
-                    SaveXML();
-                    break;
-                case "solve":
-                    LoadXML();
                     Solve();
                     SaveXML();
                     SaveObj();
