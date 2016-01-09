@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.ServiceModel.Discovery;
 using System.Collections.ObjectModel;
+using System.Net;
 
 namespace ConsoleCalibration
 {
@@ -91,10 +92,13 @@ namespace ConsoleCalibration
             for (int i = 0; i < kServers.Count; ++i)
             {
                 ensemble.cameras[i].name = i.ToString();
+                ensemble.cameras[i].hostNameOrAddress = kServers[i].Address.Uri.DnsSafeHost;
             }
             for (int i = 0; i < pServers.Count; ++i)
             {
                 ensemble.projectors[i].name = i.ToString();
+                ensemble.projectors[i].hostNameOrAddress = pServers[i].Address.Uri.DnsSafeHost;
+                ensemble.projectors[i].displayIndex = 1;//Projectors start from 1.
             }
 
             Console.WriteLine("Server search complete.");
