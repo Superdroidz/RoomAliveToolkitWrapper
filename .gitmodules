@@ -1,0 +1,3 @@
+[submodule "RoomAliveToolkit"]
+	path = RoomAliveToolkit
+	url = https://github.com/Kinect/RoomAliveToolkit.git
