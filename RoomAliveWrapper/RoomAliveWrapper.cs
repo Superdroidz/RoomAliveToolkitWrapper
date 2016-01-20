@@ -245,27 +245,35 @@ namespace RoomAliveWrapper
         // discovers Kinect servers on the local net
         static Collection<EndpointDiscoveryMetadata> DiscoverCameras()
         {
-            var discoveryClient = new DiscoveryClient(new UdpDiscoveryEndpoint());
-            var findCriteria = new FindCriteria(typeof(KinectServer2));
-            findCriteria.Duration = new TimeSpan(0, 0, 2);
-            var services = discoveryClient.Find(findCriteria);
-            discoveryClient.Close();
-            cout.PrintVerbose("Found {0} Kinect servers.", services.Endpoints.Count);
+            using (var discoveryClient = new DiscoveryClient(new UdpDiscoveryEndpoint()))
+            {
+                var findCriteria = new FindCriteria(typeof(KinectServer2))
+                {
+                    Duration = new TimeSpan(0, 0, 2)
+                };
+                var services = discoveryClient.Find(findCriteria);
+                discoveryClient.Close();
+                cout.PrintVerbose("Found {0} Kinect servers.", services.Endpoints.Count);
 
-            return services.Endpoints;
+                return services.Endpoints;
+            }
         }
 
         // discovers projector servers on the local net
         static Collection<EndpointDiscoveryMetadata> DiscoverProjectors()
         {
-            var discoveryClient = new DiscoveryClient(new UdpDiscoveryEndpoint());
-            var findCriteria = new FindCriteria(typeof(ProjectorServer));
-            findCriteria.Duration = new TimeSpan(0, 0, 2);
-            var services = discoveryClient.Find(findCriteria);
-            discoveryClient.Close();
-            cout.PrintVerbose("Found {0} projector servers.", services.Endpoints.Count);
+            using (var discoveryClient = new DiscoveryClient(new UdpDiscoveryEndpoint()))
+            {
+                var findCriteria = new FindCriteria(typeof(ProjectorServer))
+                {
+                    Duration = new TimeSpan(0, 0, 2)
+                };
+                var services = discoveryClient.Find(findCriteria);
+                discoveryClient.Close();
+                cout.PrintVerbose("Found {0} projector servers.", services.Endpoints.Count);
 
-            return services.Endpoints;
+                return services.Endpoints;
+            }
         }
 
         // coordinates server discovery and XML setup
@@ -306,7 +314,7 @@ namespace RoomAliveWrapper
             catch (Exception e)
             {
                 cout.VerbosePrint("Acquire failed.");
-                throw e;
+                throw;
             }
         }
 
@@ -325,7 +333,7 @@ namespace RoomAliveWrapper
             catch (Exception e)
             {
                 cout.VerbosePrint("Solve failed.");
-                throw e;
+                throw;
             }
         }
 
