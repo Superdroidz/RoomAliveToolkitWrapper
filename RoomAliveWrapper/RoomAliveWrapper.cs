@@ -163,6 +163,7 @@ namespace RoomAliveWrapper
                     }
                 }
             }
+            parser.Dispose();
             cout.DebugWaitForInput();
         }
 
